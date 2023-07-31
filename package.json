@@ -1,0 +1,23 @@
+{
+  "name": "voodootest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tailwindcss -i ./src/input.css -o ./dist/style.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PoladMamedov/VooDooTest.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PoladMamedov/VooDooTest/issues"
+  },
+  "homepage": "https://github.com/PoladMamedov/VooDooTest#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  }
+}
