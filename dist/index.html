@@ -7,7 +7,8 @@
     <title>VooDooTest</title>
     <link href="./style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Space+Grotesk:300,regular,500,600,700" rel="stylesheet" />
-    <script defer src="./js/script.js"></script>
+    <script defer src="./DisclosureBlock.js"></script>
+    <script defer src="./script.js"></script>
 </head>
 
 <body class="bg-light-sand font-space-grotesk flex flex-col min-h-screen overflow-x-hidden">
@@ -84,7 +85,8 @@
         </div>
     </header>
     <main class="flex-auto p-6">
-        <aside id="cart" class="p-8 absolute bg-dark-grey top-0 -right-full min-h-screen z-20 text-light-sand w-full transition-all sm:w-96">
+        <aside id="cart"
+            class="p-8 absolute bg-dark-grey top-0 -right-full min-h-screen z-20 text-light-sand w-full transition-all sm:w-96">
             <header class="flex justify-between pb-5 text-lg font-bold ">
                 <p>Shopping cart</p>
                 <button id="cart-close-btn" class="cursor-pointer" type="button">
@@ -103,89 +105,22 @@
                 </button>
             </header>
             <ul id="cart-items-list" class="pt-8 pb-8 border-t-2 border-b-2 border-light-sand">
-                <!-- <li class="flex justify-center items-center gap-5 font-bold">
-                    <img class="w-16 h-16 object-cover border border-light-sand rounded-md p-1" src="./img/1.jpeg" alt="">
-                    <div class="flex-auto">
-                        <p>Product name</p>
-                        <p>price</p>
-                        <div class="flex gap-4">
-                            <button type="button">-</button>
-                            <span>1</span>
-                            <button type="button">+</button>
-                        </div>
-                    </div>
-                    <button id="cart-close-btn" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <g clip-path="url(#clip0_2720_971)">
-                                <path
-                                    d="M7 4V2H17V4H22V6H20V21C20 21.2652 19.8946 21.5196 19.7071 21.7071C19.5196 21.8946 19.2652 22 19 22H5C4.73478 22 4.48043 21.8946 4.29289 21.7071C4.10536 21.5196 4 21.2652 4 21V6H2V4H7ZM6 6V20H18V6H6ZM9 9H11V17H9V9ZM13 9H15V17H13V9Z"
-                                    fill="#FCF7E6" />
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_2720_971">
-                                    <rect width="24" height="24" fill="white" />
-                                </clipPath>
-                            </defs>
-                        </svg>
-                    </button>
-                </li> -->
             </ul>
-            
+
         </aside>
         <div id="cart-bg" class="fixed z-10 top-0 right-0 left-0 bottom-0 bg-gray-500/30 hidden"></div>
         <section>
             <div class="container mx-auto">
-                <div id="hidden-info-wrap"
-                    class="bg-black text-light-sand rounded-md lg:mt-16 transition-all duration-300 max-h-72 overflow-hidden">
-                    <div id="hidden-info-opener" class="flex justify-between cursor-pointer p-6">
-                        <span class="text-inherit flex gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none">
-                                <path
-                                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                                    stroke="#FCF7E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M12 8V12" stroke="#FCF7E6" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path d="M12 16H12.01" stroke="#FCF7E6" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                            ALPHA
-                        </span>
-                        <span class="md:ml-16 md:mr-auto">
-                            Important info <span class="hidden lg:inline">regarding our service</span>
-                        </span>
-                        <svg id="hiiden-info-arrow" class="transition-all duration-300"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M6 9L12 15L18 9" stroke="#FCF7E6" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                    <p class="p-6">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam culpa eligendi laboriosam.
-                        Consequuntur, atque quia, labore eaque ipsum dolores repudiandae at deserunt ad voluptas iste
-                        ipsam
-                        similique, velit in repellat ut eius ab incidunt provident cum voluptate delectus sequi. Iusto
-                        perspiciatis, officiis nisi possimus qui dignissimos atque ullam aut quos.
-                    </p>
-                </div>
+                <disclosure-block>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam culpa eligendi
+                    laboriosam.
+                    Consequuntur, atque quia, labore eaque ipsum dolores repudiandae at deserunt ad voluptas iste
+                    ipsam
+                    similique, velit in repellat ut eius ab incidunt provident cum voluptate delectus sequi. Iusto
+                    perspiciatis, officiis nisi possimus qui dignissimos atque ullam aut quos.
+                </disclosure-block>
                 <ul id="products-list"
                     class="mt-12 grid gap-y-12 gap-x-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    <!-- <li class="text-sm flex flex-col gap-3 max-w-lg relative">
-                    <div class="p-2 bg-black rounded-md text-white text-xs absolute top-3 left-3">USED</div>
-                    <img class="p-3 border border-black rounded-md h-80 w-full object-cover" src="./img/1.jpeg"
-                        alt="item">
-                    <div class="flex justify-between">
-                        <div class="font-bold">
-                            <p>product name</p>
-                            <p>price</p>
-                        </div>
-                        <div>
-                            <p class="text-end font-bold">condition</p>
-                            <p class="text-end">slightly used</p>
-                        </div>
-                    </div>
-                    <button class="p-4 bg-black rounded-md text-white">ADD TO CART</button>
-                </li> -->
                 </ul>
                 <div class="pagination container mx-auto">
                     <ul class="flex justify-center items-center gap-3 mt-14">

@@ -1,14 +1,3 @@
-//! hidden info open/close
-const hiddenInfoOpener = document.querySelector("#hidden-info-opener");
-const hiddenInfoWrap = document.querySelector("#hidden-info-wrap");
-const hiddenInfoArrow = document.querySelector("#hiiden-info-arrow");
-
-hiddenInfoOpener.addEventListener("click", (e) => {
-  hiddenInfoWrap.classList.toggle("max-h-72");
-  hiddenInfoWrap.classList.toggle("max-h-2000");
-  hiddenInfoArrow.classList.toggle("rotate-180");
-});
-
 //! cart opening/closing
 const cartOpenBtn = document.querySelector("#cart-open-btn");
 const cartCloseBtn = document.querySelector("#cart-close-btn");
@@ -24,10 +13,6 @@ cartCloseBtn.addEventListener("click", cartOpenCloseHandle);
 cartBg.addEventListener("click", cartOpenCloseHandle);
 
 //! cart logic
-const cartItemsList = document.querySelector("#cart-items-list");
-let cartItems = localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [];
-appendCartItems(cartItemsList);
-
 function createCartItem(item) {
   const { title, variants, images, quantity } = item;
   const listItem = document.createElement("li");
@@ -114,6 +99,10 @@ function decreaseQuantity(item) {
   itemToDecrease.quantity--;
   appendCartItems(cartItemsList);
 }
+
+const cartItemsList = document.querySelector("#cart-items-list");
+let cartItems = localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [];
+appendCartItems(cartItemsList);
 
 //! products list fethcing and pagination setup
 async function getProducts(page) {
