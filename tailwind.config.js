@@ -6,6 +6,9 @@ module.exports = {
       "space-grotesk": ["Space Grotesk"],
     },
     extend: {
+      width: {
+        128: "32rem",
+      },
       colors: {
         "light-sand": "#FCF7E6",
         "dark-grey": "#1E1E1E",
