@@ -75,11 +75,11 @@ function appendCartItems(list) {
 
 function showSuccesIcon(listItem) {
   const message = listItem.querySelector("#adding-confirm");
-  message.classList.remove("-bottom-8");
+  message.classList.remove("-bottom-10");
   message.classList.add("bottom-20");
   setTimeout(() => {
     message.classList.remove("bottom-20");
-    message.classList.add("-bottom-8");
+    message.classList.add("-bottom-10");
   }, 1000);
 }
 
@@ -154,8 +154,8 @@ function createProductItem(item) {
       </div>
   </div>
   <button class="addToCartBtn p-4 bg-black rounded-md text-white hover:bg-gray-700">ADD TO CART</button>
-  <div id="adding-confirm" class="w-full flex justify-center items-center absolute transition-all -bottom-8">
-    <span class="bg-green-500 text-white text-2xl w-6 h-6 rounded-full flex justify-center items-center">&#10003;</span>
+  <div id="adding-confirm" class="w-full flex justify-center items-center absolute transition-all -bottom-10">
+    <span class="bg-green-500 text-white text-2xl w-10 h-10 rounded-full flex justify-center items-center">&#10003;</span>
   </div>
   `;
   listItem.addEventListener("click", (e) => {
