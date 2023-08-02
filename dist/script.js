@@ -7,6 +7,7 @@ function cartOpenCloseHandle() {
   cart.classList.toggle("-right-full");
   cart.classList.toggle("right-0");
   cartBg.classList.toggle("hidden");
+  document.body.classList.toggle("overflow-hidden");
 }
 cartOpenBtn.addEventListener("click", cartOpenCloseHandle);
 cartCloseBtn.addEventListener("click", cartOpenCloseHandle);
@@ -43,7 +44,7 @@ function createCartItem(item) {
   </button>`;
   listItem.addEventListener("click", (e) => {
     if (e.target.closest("button")?.id === "remove-item-btn") removeFromCart(item);
-    if (e.target.id === "increase-btn") addToCart(item);
+    if (e.target.id === "increase-btn") increaseQuantity(item);
     if (e.target.id === "decrease-btn") decreaseQuantity(item);
   });
   return listItem;
@@ -72,16 +73,28 @@ function appendCartItems(list) {
   );
 }
 
-function addToCart(item) {
+function showSuccesIcon(listItem) {
+  const message = listItem.querySelector("#adding-confirm");
+  message.classList.remove("-bottom-8");
+  message.classList.add("bottom-20");
+  setTimeout(() => {
+    message.classList.remove("bottom-20");
+    message.classList.add("-bottom-8");
+  }, 1000);
+}
+
+function addToCart(listItem, item) {
   const hasItem = cartItems.find((elem) => elem.id === item.id);
   if (hasItem) {
     hasItem.quantity++;
     appendCartItems(cartItemsList);
+    showSuccesIcon(listItem);
     return;
   }
   item.quantity = 1;
   cartItems.push(item);
   appendCartItems(cartItemsList);
+  showSuccesIcon(listItem);
   localStorage.setItem("cart", JSON.stringify(cartItems));
 }
 function removeFromCart(item) {
@@ -90,6 +103,12 @@ function removeFromCart(item) {
   localStorage.setItem("cart", JSON.stringify(cartItems));
 }
 
+function increaseQuantity(item) {
+  const itemToDecrease = cartItems.find((elem) => elem.id === item.id);
+  itemToDecrease.quantity++;
+  appendCartItems(cartItemsList);
+  localStorage.setItem("cart", JSON.stringify(cartItems));
+}
 function decreaseQuantity(item) {
   const itemToDecrease = cartItems.find((elem) => elem.id === item.id);
   if (itemToDecrease.quantity === 1) {
@@ -98,6 +117,7 @@ function decreaseQuantity(item) {
   }
   itemToDecrease.quantity--;
   appendCartItems(cartItemsList);
+  localStorage.setItem("cart", JSON.stringify(cartItems));
 }
 
 const cartItemsList = document.querySelector("#cart-items-list");
@@ -120,7 +140,7 @@ async function getProducts(page) {
 function createProductItem(item) {
   const { title, variants, images } = item;
   const listItem = document.createElement("li");
-  listItem.className = "text-sm flex flex-col gap-3 justify-between max-w-lg relative";
+  listItem.className = "text-sm flex flex-col gap-3 justify-between max-w-lg relative overflow-hidden";
   listItem.innerHTML = `<div class="p-2 bg-black rounded-md text-white text-xs absolute top-3 left-3">USED</div>
   <img class="p-3 border border-black rounded-md h-80 w-full object-cover" src=${images[0]?.src} alt="item">
   <div class="flex justify-between">
@@ -133,9 +153,13 @@ function createProductItem(item) {
       <p class="text-end">slightly used</p>
       </div>
   </div>
-  <button class="addToCartBtn p-4 bg-black rounded-md text-white">ADD TO CART</button>`;
+  <button class="addToCartBtn p-4 bg-black rounded-md text-white hover:bg-gray-700">ADD TO CART</button>
+  <div id="adding-confirm" class="w-full flex justify-center items-center absolute transition-all -bottom-8">
+    <span class="bg-green-500 text-white text-2xl w-6 h-6 rounded-full flex justify-center items-center">&#10003;</span>
+  </div>
+  `;
   listItem.addEventListener("click", (e) => {
-    if (e.target.classList.contains("addToCartBtn")) addToCart(item);
+    if (e.target.classList.contains("addToCartBtn")) addToCart(listItem, item);
   });
   return listItem;
 }
@@ -155,7 +179,7 @@ function createPaginationAndList(totalPages, page) {
   appendProducts(productList, page);
   let liTag = "";
   const liTagClasses =
-    "flex justify-center items-center p-3 w-11 h-11 border border-black rounded-full text-lg cursor-pointer";
+    "flex justify-center items-center p-3 w-11 h-11 border border-black rounded-full text-lg cursor-pointer hover:bg-black hover:text-white";
   let active;
   let beforePage = page - 1;
   let afterPage = page + 1;
@@ -163,7 +187,7 @@ function createPaginationAndList(totalPages, page) {
   if (page > 2) {
     liTag += `<li class="${liTagClasses}" onclick="createPaginationAndList(totalPages, 1)">1</li>`;
     if (page > 3) {
-      liTag += `<li class="${liTagClasses}">...</li>`;
+      liTag += `<li class="p-3">...</li>`;
     }
   }
   if (page == totalPages) {
@@ -192,7 +216,7 @@ function createPaginationAndList(totalPages, page) {
   }
   if (page < totalPages - 1) {
     if (page < totalPages - 2) {
-      liTag += `<li class="${liTagClasses}">...</li>`;
+      liTag += `<li class="p-3">...</li>`;
     }
     liTag += `<li class="${liTagClasses}" onclick="createPaginationAndList(totalPages, ${totalPages})">${totalPages}</li>`;
   }
