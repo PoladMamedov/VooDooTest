@@ -8,6 +8,11 @@ module.exports = {
     extend: {
       colors: {
         "light-sand": "#FCF7E6",
+        "dark-grey": "#1E1E1E",
+      },
+      maxHeight: {
+        72: "72px",
+        2000: "2000px",
       },
     },
     container: {
