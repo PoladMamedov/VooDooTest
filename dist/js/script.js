@@ -1,4 +1,8 @@
-//! products list fethcing and pagination setup
+//! products list fethcing, rendering and pagination setup
+let totalPages = 16;
+let page = 1;
+renderProductsList(totalPages, page);
+
 async function getProducts(page) {
   try {
     const response = await fetch(`https://voodoo-sandbox.myshopify.com/products.json?page=${page}`);
@@ -40,17 +44,13 @@ function createProductItem(item) {
 
 async function appendProducts(list, page) {
   const { products } = await getProducts(page);
-  const items = products.map((item) => {
-    return createProductItem(item);
-  });
-  items.forEach((item) => {
+  products.forEach((product) => {
+    const item = createProductItem(product);
     list.appendChild(item);
   });
 }
 
-function createPaginationAndList(totalPages, page) {
-  productList.innerHTML = "";
-  appendProducts(productList, page);
+function renderPagination(totalPages, page) {
   let liTag = "";
   const liTagClasses =
     "flex justify-center items-center p-3 w-11 h-11 border border-black rounded-full text-lg cursor-pointer hover:bg-black hover:text-white";
@@ -59,7 +59,7 @@ function createPaginationAndList(totalPages, page) {
   let afterPage = page + 1;
 
   if (page > 2) {
-    liTag += `<li class="${liTagClasses}" onclick="createPaginationAndList(totalPages, 1)">1</li>`;
+    liTag += `<li class="${liTagClasses}" onclick="renderProductsList(${totalPages}, 1)">1</li>`;
     if (page > 3) {
       liTag += `<li class="p-3">...</li>`;
     }
@@ -86,24 +86,24 @@ function createPaginationAndList(totalPages, page) {
     } else {
       active = "";
     }
-    liTag += `<li class="${liTagClasses} ${active}" onclick="createPaginationAndList(totalPages, ${plength})">${plength}</li>`;
+    liTag += `<li class="${liTagClasses} ${active}" onclick="renderProductsList(${totalPages}, ${plength})">${plength}</li>`;
   }
   if (page < totalPages - 1) {
     if (page < totalPages - 2) {
       liTag += `<li class="p-3">...</li>`;
     }
-    liTag += `<li class="${liTagClasses}" onclick="createPaginationAndList(totalPages, ${totalPages})">${totalPages}</li>`;
+    liTag += `<li class="${liTagClasses}" onclick="renderProductsList(${totalPages}, ${totalPages})">${totalPages}</li>`;
   }
-
-  paginationBlock.innerHTML = liTag;
   return liTag;
 }
 
-const productList = document.querySelector("#products-list");
-const paginationBlock = document.querySelector(".pagination ul");
-let totalPages = 16;
-let page = 1;
-paginationBlock.innerHTML = createPaginationAndList(totalPages, page);
+function renderProductsList(totalPages, page) {
+  const productList = document.querySelector("#products-list");
+  productList.innerHTML = "";
+  appendProducts(productList, page);
+  const paginationBlock = document.querySelector(".pagination ul");
+  paginationBlock.innerHTML = renderPagination(totalPages, page);
+}
 
 //! cart opening/closing
 const cartOpenBtn = document.querySelector("#cart-open-btn");
@@ -111,6 +111,7 @@ const cartCloseBtn = document.querySelector("#cart-close-btn");
 const cart = document.querySelector("#cart");
 const cartBg = document.querySelector("#cart-bg");
 function cartOpenCloseHandle() {
+  window.scrollTo(0, 0);
   cart.classList.toggle("-right-full");
   cart.classList.toggle("right-0");
   cartBg.classList.toggle("hidden");
@@ -120,7 +121,12 @@ cartOpenBtn.addEventListener("click", cartOpenCloseHandle);
 cartCloseBtn.addEventListener("click", cartOpenCloseHandle);
 cartBg.addEventListener("click", cartOpenCloseHandle);
 
-//! cart logic
+//! cart render and logic
+
+const cartItemsList = document.querySelector("#cart-items-list");
+let cartItems = localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [];
+appendCartItems(cartItemsList);
+
 function createCartItem(item) {
   const { title, variants, images, quantity } = item;
   const listItem = document.createElement("li");
@@ -204,6 +210,7 @@ function addToCart(listItem, item) {
   showSuccesIcon(listItem);
   localStorage.setItem("cart", JSON.stringify(cartItems));
 }
+
 function removeFromCart(item) {
   cartItems = cartItems.filter((elem) => elem.id !== item.id);
   appendCartItems(cartItemsList);
@@ -216,6 +223,7 @@ function increaseQuantity(item) {
   appendCartItems(cartItemsList);
   localStorage.setItem("cart", JSON.stringify(cartItems));
 }
+
 function decreaseQuantity(item) {
   const itemToDecrease = cartItems.find((elem) => elem.id === item.id);
   if (itemToDecrease.quantity === 1) {
@@ -226,7 +234,3 @@ function decreaseQuantity(item) {
   appendCartItems(cartItemsList);
   localStorage.setItem("cart", JSON.stringify(cartItems));
 }
-
-const cartItemsList = document.querySelector("#cart-items-list");
-let cartItems = localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [];
-appendCartItems(cartItemsList);

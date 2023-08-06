@@ -998,10 +998,6 @@ video {
 }
 
 @media (min-width: 640px) {
-  .sm\:w-96 {
-    width: 24rem;
-  }
-
   .sm\:w-128 {
     width: 32rem;
   }
